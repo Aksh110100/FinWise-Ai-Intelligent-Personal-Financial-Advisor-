@@ -1,0 +1,130 @@
+@import './styles/variables.css';
+
+@font-face {
+  font-family: 'Heraka';
+  src: url('/fonts/Heraka.woff2') format('woff2'),
+       url('/fonts/Heraka.woff') format('woff'),
+       url('/fonts/Heraka.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Werd';
+  src: url('/fonts/Werd.woff2') format('woff2'),
+       url('/fonts/Werd.woff') format('woff'),
+       url('/fonts/Werd.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-secondary);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  color-scheme: dark;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+button, input, select, textarea {
+  font-family: var(--font-secondary);
+}
+
+/* Remove up/down arrows from number inputs */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(201, 164, 108, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(201, 164, 108, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(201, 164, 108, 0);
+  }
+}
+
+/* Color Utilities */
+.text-gold {
+  color: var(--accent-gold) !important;
+}
+
+.text-emerald {
+  color: var(--accent-emerald) !important;
+}
+
+.text-rose {
+  color: #f43f5e !important;
+}
+
+/* Micro-animations and Interactions */
+.float-tag {
+  transition: var(--transition-bounce);
+}
+.float-tag:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--accent-gold) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 4px 12px rgba(201, 164, 108, 0.25);
+  background-color: rgba(201, 164, 108, 0.05) !important;
+}
+
+.chip {
+  transition: var(--transition-smooth);
+}
+.chip:hover {
+  background-color: rgba(201, 164, 108, 0.08) !important;
+  border-color: rgba(201, 164, 108, 0.3) !important;
+  color: var(--text-primary) !important;
+  transform: translateY(-2px);
+}
+

@@ -1,0 +1,380 @@
+/* src/styles/budget.css */
+
+.budget-page-container {
+  padding-bottom: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Typography Overrides */
+.budget-title {
+  font-family: var(--font-primary);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.budget-amount-large {
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.budget-subtitle {
+  font-family: var(--font-secondary);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Glass Panels per specifications */
+.budget-glass-panel {
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3), 0 0 30px rgba(201, 164, 108, 0.08);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.budget-glass-panel:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 0 0 50px rgba(201, 164, 108, 0.15);
+}
+
+.budget-glass-panel-secondary {
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3), 0 0 30px rgba(201, 164, 108, 0.08);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.budget-glass-panel-secondary:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 0 0 50px rgba(201, 164, 108, 0.15);
+}
+
+/* Header */
+.budget-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Month Selector */
+.budget-month-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin-bottom: 32px;
+}
+
+.budget-month-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.budget-month-btn:hover {
+  color: var(--text-primary);
+}
+
+.budget-month-text {
+  text-transform: uppercase;
+  min-width: 140px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-month-indicator {
+  font-size: 0.65rem;
+  color: var(--accent-gold);
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+/* Progress Bars */
+.budget-progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.budget-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--text-positive);
+  transition: width 900ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%; /* Initial state for animation */
+}
+
+.budget-progress-fill.status-near {
+  background: var(--accent-gold);
+}
+
+.budget-progress-fill.status-over {
+  background: #C46C6C; /* Muted red */
+}
+
+/* Categories List */
+.budget-categories-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.budget-category-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.budget-category-row:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.budget-category-row:hover .budget-progress-fill {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.budget-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.budget-category-name {
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+}
+
+.budget-category-stats {
+  font-family: var(--font-secondary);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Forms & Inputs */
+.budget-input-group {
+  margin-bottom: 24px;
+}
+
+.budget-label {
+  display: block;
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.budget-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--text-primary);
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  outline: none;
+}
+
+.budget-input:focus {
+  border-color: var(--accent-gold);
+}
+
+.budget-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Custom Dropdown (Select) */
+.budget-dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.budget-dropdown-selected {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--text-primary);
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.budget-dropdown-selected:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.budget-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 8px;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  z-index: 100;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: dropdownFade 200ms ease forwards;
+}
+
+.budget-dropdown-item {
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  font-family: var(--font-secondary);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.budget-dropdown-item:hover, .budget-dropdown-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+/* Custom Scrollbar for budget areas */
+.budget-scrollable {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 12px;
+}
+
+.budget-scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.budget-scrollable::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: 2px;
+}
+
+.budget-scrollable::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+/* Layout Utilities */
+.budget-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.budget-col-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.budget-col-side {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+/* Filters */
+.budget-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.budget-search-input {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  width: 200px;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+.budget-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  width: 220px;
+}
+
+/* Graph */
+.budget-graph-container {
+  height: 250px;
+  width: 100%;
+  position: relative;
+  margin-top: 32px;
+}
+
+/* Animations */
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes listEnter {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.budget-anim-enter {
+  animation: listEnter 400ms ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .budget-row {
+    flex-direction: column;
+  }
+  .budget-col-side {
+    width: 100%;
+  }
+}

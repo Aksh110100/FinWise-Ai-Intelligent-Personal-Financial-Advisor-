@@ -1,0 +1,138 @@
+.how-it-works-section {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.how-it-works-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.story-stage {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(5, 5, 5, 0.08);
+    backdrop-filter: blur(6px) saturate(115%);
+    -webkit-backdrop-filter: blur(6px) saturate(115%);
+    
+    /* Extremely subtle separation */
+    border-top: 1px solid rgba(255,255,255,0.055);
+    border-bottom: 1px solid rgba(255,255,255,0.035);
+    
+    padding-top: clamp(100px, 12vh, 160px);
+    padding-bottom: clamp(100px, 12vh, 160px);
+    padding-left: clamp(32px, 10vw, 160px);
+    padding-right: 32px;
+}
+
+.story-content {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 800ms ease, transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    /* Removed localized readability gradient per instructions */
+    padding: 32px;
+    border-radius: 12px;
+    margin-left: -32px; /* Offset the padding visually */
+    position: relative; /* For the ::before pseudo-element */
+}
+
+.story-content::before {
+    content: "";
+    position: absolute;
+    left: -40px;
+    top: -60px;
+    width: 850px;
+    height: 600px;
+    background: radial-gradient(
+        ellipse,
+        rgba(0,0,0,0.16) 0%,
+        rgba(0,0,0,0.07) 45%,
+        transparent 75%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.story-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.how-stage-eyebrow {
+    color: #C9A46C;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.how-stage-heading {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    line-height: 0.95;
+    font-weight: 800;
+    font-family: var(--font-primary);
+    color: #F5F3EF;
+    letter-spacing: -0.02em;
+}
+
+.how-stage-desc {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: rgba(245,243,239,0.78);
+    max-width: 500px;
+}
+
+.how-insight-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    padding-left: 24px;
+    margin-top: 16px;
+}
+
+.how-insight-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(245,243,239,0.5); /* Muted but based on #F5F3EF */
+    text-transform: uppercase;
+}
+
+.how-insight-value {
+    font-family: var(--font-primary);
+    font-size: 3rem;
+    font-weight: 700;
+    color: #F5F3EF;
+    line-height: 1.1;
+}
+
+.how-insight-value.positive {
+    color: #63C993;
+}
+
+.how-insight-sub {
+    font-size: 0.875rem;
+    color: rgba(245,243,239,0.6);
+    margin-top: 4px;
+}
+
+.how-insight-sub.positive {
+    color: #63C993;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+
+
+

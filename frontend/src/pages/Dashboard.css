@@ -1,0 +1,134 @@
+/* Dashboard Full-Bleed Cinematic Layout */
+
+.dashboard-ambient-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #050505;
+}
+
+.dashboard-ambient-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.05;
+  mix-blend-mode: screen;
+}
+
+/* Floating Navigation */
+.floating-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  z-index: 100;
+  transition: all 0.4s ease;
+}
+
+.floating-nav.scrolled {
+  background: rgba(5, 5, 5, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px 40px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+/* Cinematic Sections */
+.cinematic-section {
+  width: 100%;
+  padding: 120px 40px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.hero-section {
+  padding-top: 180px;
+  padding-bottom: 80px;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+/* Section Divider */
+.section-divider {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-bottom: 60px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.section-divider.visible {
+  opacity: 1;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 100px);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-divider::before {
+  left: 0;
+}
+
+.section-divider::after {
+  right: 0;
+}
+
+.section-divider span {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  padding: 0 16px;
+}
+
+/* Base animation styles */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.anim-fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered Delays */
+.delay-1 { transition-delay: 0ms; }
+.delay-2 { transition-delay: 150ms; }
+.delay-3 { transition-delay: 300ms; }
+.delay-4 { transition-delay: 450ms; }
+.delay-5 { transition-delay: 600ms; }
+.delay-6 { transition-delay: 750ms; }
+.delay-7 { transition-delay: 900ms; }
+.delay-8 { transition-delay: 1050ms; }

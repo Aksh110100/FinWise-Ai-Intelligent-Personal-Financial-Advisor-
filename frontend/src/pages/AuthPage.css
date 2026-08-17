@@ -1,0 +1,78 @@
+/* Base animation styles for auth elements */
+.auth-anim-element {
+  opacity: 0;
+  animation: authFadeIn 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.auth-anim-element.exit {
+  animation: authFadeOut 350ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Keyframes */
+@keyframes authFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes authFadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+    filter: blur(4px);
+  }
+}
+
+/* Staggered Delays for elements entering */
+.auth-anim-element:not(.exit).delay-1 { animation-delay: 0ms; }
+.auth-anim-element:not(.exit).delay-2 { animation-delay: 40ms; }
+.auth-anim-element:not(.exit).delay-3 { animation-delay: 80ms; }
+.auth-anim-element:not(.exit).delay-4 { animation-delay: 120ms; }
+.auth-anim-element:not(.exit).delay-5 { animation-delay: 160ms; }
+.auth-anim-element:not(.exit).delay-6 { animation-delay: 200ms; }
+.auth-anim-element:not(.exit).delay-7 { animation-delay: 240ms; }
+
+/* Global interaction styles for Auth pages */
+input[type="email"]:focus, 
+input[type="password"]:focus, 
+input[type="text"]:focus {
+  border-color: rgba(201, 164, 108, 0.65) !important;
+}
+
+.login-submit-btn:hover,
+.register-submit-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.auth-glass-panel a:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column !important;
+    padding: 20px !important;
+    gap: 40px !important;
+  }
+  .auth-left-col, .auth-right-col {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  .auth-logo {
+    margin-bottom: 32px !important;
+  }
+}

@@ -1,0 +1,154 @@
+/* Dashboard Savings Module Styles */
+
+.savings-dashboard-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Subtle Dashboard Glow - Behind content */
+.savings-dashboard-glow {
+  position: fixed;
+  top: 20%;
+  right: 10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(201, 164, 108, 0.04) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+  animation: glow-breathe 12s infinite alternate ease-in-out;
+}
+
+@keyframes glow-breathe {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+  100% { transform: scale(1.1) translate(-2%, 2%); opacity: 1; }
+}
+
+/* Metric Cards */
+.savings-metric-card {
+  padding: 24px;
+}
+.savings-metric-card .kpi-value {
+  margin-top: 12px;
+}
+
+/* Animations */
+.anim-width {
+  animation: grow-width 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: left;
+}
+
+@keyframes grow-width {
+  0% { width: 0; }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Goal Item Compact */
+.goal-item-compact {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.goal-item-compact:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Custom Tooltip */
+.savings-custom-tooltip {
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  min-width: 140px;
+}
+
+/* Simulator Slider (Dashboard Style) */
+.savings-simulator-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  background: transparent;
+}
+.savings-simulator-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+.savings-simulator-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  margin-top: -8px;
+  cursor: pointer;
+  border: 2px solid #000;
+  transition: transform 0.2s;
+}
+.savings-simulator-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Side Panels */
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.side-panel-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100vh;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  z-index: 1000;
+  padding: 40px;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+.side-panel.open {
+  right: 0;
+}
+.panel-close {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.panel-close:hover {
+  color: var(--text-primary);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .savings-dashboard-glow { width: 80vw; height: 80vw; }
+}
+
+@media (max-width: 768px) {
+  .side-panel { width: 100%; right: -100%; }
+}
