@@ -47,7 +47,9 @@ const Register: React.FC = () => {
       
       <div style={containerStyle}>
         <div style={leftColStyle}>
-          <div style={logoStyle}>FINWISE<br/>AI</div>
+          <div style={logoStyle}>
+            <img src="/logo.png" alt="FinWise AI" style={{ height: '90px', objectFit: 'contain', marginLeft: '-12px', marginBottom: '-12px' }} />
+          </div>
           <h1 style={titleStyle}>
             YOUR MONEY.<br/>
             UNDERSTOOD.

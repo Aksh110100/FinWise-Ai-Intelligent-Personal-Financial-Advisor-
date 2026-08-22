@@ -75,7 +75,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ isAnimatingOut }) => {
             <input type="checkbox" style={checkboxStyle} />
             Remember me
           </label>
-          <a href="#" style={forgotStyle}>Forgot password?</a>
+          <Link to="/forgot-password" style={forgotStyle}>Forgot password?</Link>
         </div>
 
         <button type="submit" style={submitBtnStyle} className={`login-submit-btn ${getAnimClass(5)}`} disabled={isLoading}>

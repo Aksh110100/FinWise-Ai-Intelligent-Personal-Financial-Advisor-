@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useDelayedUnmount } from '../../hooks/useDelayedUnmount';
 import { createPortal } from 'react-dom';
 import { useDashboard } from '../../context/DashboardContext';
 import { parseCSV, parseExcel } from '../../utils/fileParsers';
@@ -11,11 +12,12 @@ type ImportFlow = 'csv' | 'statement' | 'receipt' | null;
 type Step = 'upload' | 'mapping' | 'processing' | 'review' | 'success';
 
 interface ImportManagerProps {
+  isOpen: boolean;
   initialFlow: ImportFlow;
   onClose: () => void;
 }
 
-export const ImportManager: React.FC<ImportManagerProps> = ({ initialFlow, onClose }) => {
+export const ImportManager: React.FC<ImportManagerProps> = ({ isOpen, initialFlow, onClose }) => {
   const { addTransactions, addTransaction } = useDashboard();
   
   const [flow, setFlow] = useState<ImportFlow>(initialFlow || 'csv');
@@ -23,6 +25,12 @@ export const ImportManager: React.FC<ImportManagerProps> = ({ initialFlow, onClo
   
   const [file, setFile] = useState<File | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
   
   const [headers, setHeaders] = useState<string[]>([]);
   const [rawData, setRawData] = useState<any[]>([]);
@@ -206,9 +214,13 @@ export const ImportManager: React.FC<ImportManagerProps> = ({ initialFlow, onClo
     }
   };
 
+  const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 400);
+
+  if (!shouldRender) return null;
+
   const modalContent = (
-    <div className="qa-overlay center opening" onClick={handleBackdropClick} style={{zIndex: 9999}}>
-      <div className="qa-panel floating opening" style={{ maxWidth: '600px', width: '90%' }}>
+    <div className={`qa-overlay center opening ${isClosing ? 'closing' : ''}`} onClick={handleBackdropClick} style={{zIndex: 9999}}>
+      <div className={`qa-panel floating opening ${isClosing ? 'closing' : ''}`} style={{ maxWidth: '600px', width: '90%' }}>
         <button className="qa-close-btn" onClick={onClose}>
           <X size={24} />
         </button>

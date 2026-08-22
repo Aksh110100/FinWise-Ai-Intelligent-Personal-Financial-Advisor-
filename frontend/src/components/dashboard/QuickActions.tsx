@@ -52,12 +52,11 @@ export const QuickActions: React.FC = () => {
         </div>
       </section>
 
-      {activeImport && (
-        <ImportManager 
-          initialFlow={activeImport} 
-          onClose={() => setActiveImport(null)} 
-        />
-      )}
+      <ImportManager 
+        isOpen={activeImport !== null}
+        initialFlow={activeImport} 
+        onClose={() => setActiveImport(null)} 
+      />
     </>
   );
 };

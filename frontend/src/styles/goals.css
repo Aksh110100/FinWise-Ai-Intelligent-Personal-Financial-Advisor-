@@ -199,8 +199,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.3s ease;
+  animation: modalOverlayFadeIn 0.3s ease-out;
   padding: 24px;
+}
+
+.goals-modal-overlay.closing {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in;
+}
+
+@keyframes modalOverlayFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .goals-modal-content {
@@ -216,6 +227,12 @@
   animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   max-height: 90vh;
   overflow-y: auto;
+}
+
+.goals-modal-overlay.closing .goals-modal-content {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes modalSlideUp {

@@ -25,6 +25,10 @@ export const QuickActionPanel: React.FC<QuickActionPanelProps> = ({ isOpen, acti
       setShouldRender(true);
       setIsClosing(false);
       setSuccessState({show: false, message: '', amount: '', sub: ''});
+      
+      const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+      window.addEventListener('keydown', handleEsc);
+      return () => window.removeEventListener('keydown', handleEsc);
     } else if (shouldRender) {
       setIsClosing(true);
       const timer = setTimeout(() => {

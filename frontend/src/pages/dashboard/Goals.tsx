@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useDelayedUnmount } from '../../hooks/useDelayedUnmount';
 import { createPortal } from 'react-dom';
 import { 
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area
@@ -710,7 +711,14 @@ export default function Goals() {
 // --- Subcomponents for Modals & Interactivity ---
 
 function CreateEditModal({ isOpen, onClose, goal, onSave }: any) {
-  if (!isOpen) return null;
+  const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 300);
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (isOpen) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
+
+  if (!shouldRender) return null;
 
   const [formData, setFormData] = useState<Partial<Goal>>(goal || {
     name: '',
@@ -737,7 +745,7 @@ function CreateEditModal({ isOpen, onClose, goal, onSave }: any) {
   };
 
   return createPortal(
-    <div className="goals-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className={`goals-modal-overlay ${isClosing ? 'closing' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="goals-modal-content">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <h2 style={{ fontFamily: 'var(--font-primary)', fontSize: '1.25rem' }}>{goal ? 'EDIT GOAL' : 'CREATE A NEW GOAL'}</h2>
@@ -808,7 +816,14 @@ function CreateEditModal({ isOpen, onClose, goal, onSave }: any) {
 }
 
 function ContributionModal({ isOpen, onClose, goal, onSave }: any) {
-  if (!isOpen || !goal) return null;
+  const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 300);
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (isOpen) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
+
+  if (!shouldRender || !goal) return null;
   const [amount, setAmount] = useState<number | ''>('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -843,9 +858,16 @@ function ContributionModal({ isOpen, onClose, goal, onSave }: any) {
 }
 
 function DeleteModal({ isOpen, onClose, goal, onConfirm }: any) {
-  if (!isOpen || !goal) return null;
+  const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 300);
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (isOpen) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
+
+  if (!shouldRender || !goal) return null;
   return createPortal(
-    <div className="goals-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className={`goals-modal-overlay ${isClosing ? 'closing' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="goals-modal-content" style={{ maxWidth: '400px' }}>
         <h2 style={{ fontFamily: 'var(--font-primary)', fontSize: '1.25rem', marginBottom: '16px', color: '#ef4444' }}>DELETE GOAL?</h2>
         <p style={{ color: 'var(--text-secondary)', marginBottom: '32px' }}>Are you sure you want to remove <strong>{goal.name}</strong>? This action cannot be undone.</p>

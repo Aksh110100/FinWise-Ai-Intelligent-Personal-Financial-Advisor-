@@ -14,6 +14,9 @@ export const AIInsightPanel: React.FC<AIInsightPanelProps> = ({ isOpen, insightT
   React.useEffect(() => {
     if (isOpen) {
       setIsClosing(false);
+      const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };
+      window.addEventListener('keydown', handleEsc);
+      return () => window.removeEventListener('keydown', handleEsc);
     }
   }, [isOpen]);
 

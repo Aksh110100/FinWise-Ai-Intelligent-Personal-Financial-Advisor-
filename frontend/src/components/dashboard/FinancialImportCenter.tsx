@@ -31,12 +31,11 @@ export const FinancialImportCenter: React.FC = () => {
         />
       </div>
 
-      {activeImport && (
-        <ImportManager 
-          initialFlow={activeImport} 
-          onClose={() => setActiveImport(null)} 
-        />
-      )}
+      <ImportManager 
+        isOpen={activeImport !== null}
+        initialFlow={activeImport} 
+        onClose={() => setActiveImport(null)} 
+      />
     </div>
   );
 };

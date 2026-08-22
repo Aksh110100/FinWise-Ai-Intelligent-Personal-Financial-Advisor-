@@ -10,7 +10,9 @@ import Budget from './pages/dashboard/Budget';
 import Savings from './pages/dashboard/Savings';
 import Investments from './pages/dashboard/Investments';
 import Goals from './pages/dashboard/Goals';
-import { PlaceholderPage } from './pages/dashboard/PlaceholderPage';
+import Reports from './pages/dashboard/Reports';
+import { AIAdvisorPage } from './pages/dashboard/AIAdvisorPage';
+import { ProfileSettingsPage } from './pages/dashboard/ProfileSettingsPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const App: React.FC = () => {
@@ -21,6 +23,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/register" element={<AuthPage />} />
+        <Route path="/forgot-password" element={<AuthPage />} />
         
         <Route 
           element={
@@ -35,8 +38,9 @@ const App: React.FC = () => {
           <Route path="/savings" element={<Savings />} />
           <Route path="/investments" element={<Investments />} />
           <Route path="/goals" element={<Goals />} />
-          <Route path="/advisor" element={<PlaceholderPage title="AI Advisor" />} />
-          <Route path="/reports" element={<PlaceholderPage title="Reports" />} />
+          <Route path="/advisor" element={<AIAdvisorPage />} />
+          <Route path="/settings" element={<ProfileSettingsPage />} />
+          <Route path="/reports" element={<Reports />} />
         </Route>
         
         {/* Fallback redirect */}

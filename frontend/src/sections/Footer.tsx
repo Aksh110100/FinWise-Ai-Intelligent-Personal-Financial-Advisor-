@@ -7,8 +7,7 @@ export const Footer: React.FC = () => {
       <div style={containerStyle}>
         <div style={brandStyle}>
           <div style={logoStyle}>
-            <Compass size={20} color="var(--accent-gold)" />
-            <span style={logoTextStyle}>FINWISE AI</span>
+            <img src="/logo.png" alt="FinWise AI" style={{ height: '48px', objectFit: 'contain', marginLeft: '-8px' }} />
           </div>
           <p style={descStyle}>AI-powered personal financial intelligence.</p>
         </div>

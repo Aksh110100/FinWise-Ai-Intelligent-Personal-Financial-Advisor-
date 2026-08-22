@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LoginForm } from '../components/auth/LoginForm';
 import { RegisterForm } from '../components/auth/RegisterForm';
+import { ForgotPasswordForm } from '../components/auth/ForgotPasswordForm';
 import './AuthPage.css';
 
 const AuthPage: React.FC = () => {
@@ -30,7 +31,9 @@ const AuthPage: React.FC = () => {
       
       <div style={containerStyle} className="auth-container">
         <div style={leftColStyle} className="auth-left-col">
-          <div style={logoStyle} className="auth-logo">FINWISE<br/>AI</div>
+          <div style={logoStyle} className="auth-logo">
+            <img src="/logo.png" alt="FinWise AI" style={{ height: '76px', objectFit: 'contain', transform: 'translate(-40px, 0)' }} />
+          </div>
           <h1 style={titleStyle}>
             YOUR MONEY.<br/>
             UNDERSTOOD.
@@ -45,6 +48,8 @@ const AuthPage: React.FC = () => {
           <div style={glassPanelStyle} className="auth-glass-panel">
             {displayPath === '/register' ? (
               <RegisterForm isAnimatingOut={isAnimatingOut} />
+            ) : displayPath === '/forgot-password' ? (
+              <ForgotPasswordForm isAnimatingOut={isAnimatingOut} />
             ) : (
               <LoginForm isAnimatingOut={isAnimatingOut} />
             )}

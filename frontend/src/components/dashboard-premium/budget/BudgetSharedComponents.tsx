@@ -1,5 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDelayedUnmount } from '../../../hooks/useDelayedUnmount';
 import { ChevronDown, Check, X, AlertTriangle } from 'lucide-react';
+
+export const useEscapeKey = (callback: () => void, isActive: boolean) => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') callback(); };
+    if (isActive) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isActive, callback]);
+};
 
 export const FinWiseDropdown: React.FC<{
   value: string;
@@ -57,9 +66,16 @@ export const DeleteConfirmModal: React.FC<{
   onConfirm: () => void;
   onCancel: () => void;
 }> = ({ isOpen, categoryName, onConfirm, onCancel }) => {
-  if (!isOpen) return null;
+  const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 300);
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onCancel(); };
+    if (isOpen) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onCancel]);
+
+  if (!shouldRender) return null;
   return (
-    <div style={modalOverlayStyle}>
+    <div style={modalOverlayStyle} className={isClosing ? 'closing' : ''}>
       <div style={modalContentStyle} className="budget-anim-enter">
         <h3 style={{ fontFamily: 'var(--font-primary)', marginBottom: '8px', fontSize: '1.25rem' }}>
           DELETE {categoryName.toUpperCase()} BUDGET?

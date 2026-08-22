@@ -1,282 +1,199 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { scrollToSection } from '../utils/navigation';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      
-      // Determine active section based on scroll
-      const sections = navLinks.map(link => link.href.substring(1));
-      let current = '';
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.3) {
-          current = `#${section}`;
-        }
-      }
-      setActiveSection(current);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: 'AI Advisor', href: '#ai-advisor' },
-    { label: 'Future Planning', href: '#future-simulation' },
-    { label: 'Insights', href: '#financial-xray' },
-  ];
-
   const handleLinkClick = (href: string) => {
-    setIsOpen(false);
     scrollToSection(href);
   };
 
   return (
     <>
-      <nav style={{
-        ...navbarStyle,
-        backgroundColor: isScrolled ? 'rgba(5, 5, 5, 0.9)' : 'transparent',
-        borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid transparent',
-        backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-        WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        padding: isScrolled ? '16px 32px' : '32px 48px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        zIndex: 1000,
+        pointerEvents: 'none', // Allows clicking through the empty space
+        transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
       }}>
-        <div style={navContainerStyle}>
-          {/* Logo */}
-          <a href="#hero" onClick={(e) => { e.preventDefault(); handleLinkClick('#hero'); }} style={logoStyle}>
-            FINWISE<br />AI
-          </a>
+        {/* Floating Logo (Top Left) */}
+        <a 
+          href="#hero" 
+          onClick={(e) => { e.preventDefault(); handleLinkClick('#hero'); }} 
+          className="floating-logo"
+          style={{...logoStyle, padding: '4px 16px', background: 'transparent', border: 'none', boxShadow: 'none'}}
+        >
+          <img src="/logo.png" alt="FinWise AI" className="navbar-logo-img" style={{ height: '40px', objectFit: 'contain', filter: 'drop-shadow(0 0 8px rgba(201, 164, 108, 0.2))', transition: 'all 0.3s ease' }} />
+        </a>
 
-          {/* Links (Desktop) */}
-          <div style={linksContainerStyle}>
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick(link.href);
-                }}
-                style={{
-                  ...navLinkStyle,
-                  color: activeSection === link.href ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  fontWeight: activeSection === link.href ? 600 : 400,
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Action CTAs (Desktop) */}
-          <div style={actionsContainerStyle}>
-            <Link to="/login" style={loginBtnStyle}>Log in</Link>
-            <Link to="/register" className="signup-btn" style={signupBtnStyle}>
-              Get Started
-              <ArrowRight size={14} style={{ marginLeft: '6px' }} />
-            </Link>
-          </div>
-
-          {/* Hamburger Menu (Mobile) */}
-          <button style={menuBtnStyle} onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={24} color="var(--text-primary)" /> : <Menu size={24} color="var(--text-primary)" />}
-          </button>
+        {/* Floating Action CTAs (Top Right) */}
+        <div style={actionsContainerStyle} className="floating-actions">
+          <Link to="/login" className="nav-login-btn" style={loginBtnStyle}>
+            Log in
+          </Link>
+          <Link to="/register" className="nav-signup-btn" style={signupBtnStyle}>
+            <span style={{ position: 'relative', zIndex: 2 }}>Get Started</span>
+            <div style={arrowContainerStyle} className="arrow-container">
+              <ArrowRight size={12} />
+            </div>
+          </Link>
         </div>
-      </nav>
-
-      {/* Slide-out Mobile Nav Menu */}
-      {isOpen && (
-        <div style={mobileMenuOverlayStyle}>
-          <div style={mobileLinksContainerStyle}>
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick(link.href);
-                }}
-                style={mobileNavLinkStyle}
-              >
-                {link.label}
-              </a>
-            ))}
-            <div style={mobileDividerStyle} />
-            <Link to="/login" onClick={() => setIsOpen(false)} style={mobileLoginBtnStyle}>Log in</Link>
-            <Link to="/register" className="signup-btn" onClick={() => setIsOpen(false)} style={mobileSignupBtnStyle}>
-              Get Started
-              <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-            </Link>
-          </div>
-        </div>
-      )}
+      </div>
     </>
   );
 };
 
 // Navbar Premium Styles
-const navbarStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  zIndex: 1000,
-  transition: 'var(--transition-smooth)',
-};
-
-const navContainerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  maxWidth: '1440px',
-  margin: '0 auto',
-  padding: '20px 40px',
-  height: '80px',
-  width: '100%',
-};
 
 const logoStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-primary)',
-  fontSize: '0.9rem',
-  fontWeight: 800,
-  lineHeight: 1.1,
-  letterSpacing: '0.05em',
-  color: 'var(--text-primary)',
-  textDecoration: 'none',
-};
-
-const linksContainerStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  gap: '48px',
+  gap: '10px',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  background: 'rgba(255, 255, 255, 0.03)',
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  padding: '6px 14px 6px 6px',
+  borderRadius: '100px',
+  border: '1px solid rgba(255, 255, 255, 0.05)',
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+  transition: 'all 0.3s ease',
 };
 
-const navLinkStyle: React.CSSProperties = {
+const logoIconContainerStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '26px',
+  height: '26px',
+  borderRadius: '50%',
+  backgroundColor: '#fff',
+  boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+  transition: 'all 0.3s ease',
+};
+
+const logoTextStyle: React.CSSProperties = {
+  fontFamily: 'var(--font-primary, "Inter", sans-serif)',
   fontSize: '0.875rem',
-  fontWeight: 400,
-  color: 'var(--text-secondary)',
-  textDecoration: 'none',
-  transition: 'var(--transition-smooth)',
+  fontWeight: 800,
+  letterSpacing: '0.05em',
+  color: '#fff',
 };
 
 const actionsContainerStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  gap: '32px',
+  gap: '12px',
+  pointerEvents: 'auto',
+  background: 'rgba(255, 255, 255, 0.03)',
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  padding: '6px 6px 6px 16px',
+  borderRadius: '100px',
+  border: '1px solid rgba(255, 255, 255, 0.05)',
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+  transition: 'all 0.3s ease',
 };
 
 const loginBtnStyle: React.CSSProperties = {
-  fontSize: '0.875rem',
+  fontSize: '0.8125rem',
   fontWeight: 500,
-  color: 'var(--text-secondary)',
+  color: 'rgba(255, 255, 255, 0.7)',
   textDecoration: 'none',
-  transition: 'var(--transition-smooth)',
+  padding: '6px 10px',
+  borderRadius: '100px',
+  transition: 'all 0.3s ease',
 };
 
 const signupBtnStyle: React.CSSProperties = {
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  fontSize: '0.875rem',
+  gap: '6px',
+  fontSize: '0.8125rem',
   fontWeight: 600,
-  color: 'var(--bg-primary)',
-  backgroundColor: 'var(--text-primary)',
-  padding: '12px 24px',
-  borderRadius: '4px',
+  color: '#000',
+  backgroundColor: '#fff',
+  padding: '6px 8px 6px 16px',
+  borderRadius: '100px',
   textDecoration: 'none',
-  transition: 'var(--transition-smooth)',
+  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+  boxShadow: '0 4px 15px rgba(255, 255, 255, 0.1)',
 };
 
-const menuBtnStyle: React.CSSProperties = {
-  display: 'none',
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  outline: 'none',
-  padding: '4px',
-};
-
-const mobileMenuOverlayStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: '80px',
-  left: 0,
-  width: '100%',
-  height: 'calc(100vh - 80px)',
-  backgroundColor: 'var(--bg-primary)',
-  zIndex: 999,
-  padding: '40px',
-  overflowY: 'auto',
-  borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-};
-
-const mobileLinksContainerStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '32px',
-};
-
-const mobileNavLinkStyle: React.CSSProperties = {
-  fontSize: '1.5rem',
-  fontWeight: 500,
-  color: 'var(--text-primary)',
-  textDecoration: 'none',
-};
-
-const mobileDividerStyle: React.CSSProperties = {
-  height: '1px',
-  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-  margin: '16px 0',
-};
-
-const mobileLoginBtnStyle: React.CSSProperties = {
-  fontSize: '1.25rem',
-  fontWeight: 400,
-  color: 'var(--text-secondary)',
-  textDecoration: 'none',
-};
-
-const mobileSignupBtnStyle: React.CSSProperties = {
+const arrowContainerStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '1.25rem',
-  fontWeight: 600,
-  color: 'var(--bg-primary)',
-  backgroundColor: 'var(--text-primary)',
-  padding: '16px',
-  borderRadius: '4px',
-  textDecoration: 'none',
-  textAlign: 'center',
-  marginTop: '16px',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  backgroundColor: 'rgba(0, 0, 0, 0.05)',
+  transition: 'all 0.3s ease',
+  position: 'relative',
+  zIndex: 2,
 };
 
 if (typeof window !== 'undefined') {
   const styleElement = document.createElement('style');
   styleElement.textContent = `
-    @media (max-width: 1024px) {
-      .linksContainerStyle, .actionsContainerStyle {
-        display: none !important;
-      }
-      nav > div > div {
-        display: none !important;
-      }
-      nav button {
-        display: block !important;
-      }
+    .floating-logo:hover {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
     }
     
-    a:not(.signup-btn):hover {
-      color: var(--text-primary) !important;
+    .floating-logo:hover .navbar-logo-img {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 20px rgba(201, 164, 108, 0.6)) !important;
     }
-    a.signup-btn:hover {
+
+    .floating-actions:hover {
+      border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    .nav-login-btn:hover {
+      color: #fff !important;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .nav-signup-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1) !important;
-      color: var(--bg-primary) !important;
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25) !important;
+      background-color: #f8f8f8 !important;
+    }
+    
+    .nav-signup-btn:hover .arrow-container {
+      transform: translateX(4px);
+      background-color: rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    @media (max-width: 600px) {
+      .nav-login-btn {
+        display: none !important;
+      }
+      .floating-actions {
+        padding: 6px !important;
+      }
     }
   `;
   document.head.appendChild(styleElement);

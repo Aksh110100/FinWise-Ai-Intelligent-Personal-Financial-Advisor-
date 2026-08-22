@@ -16,7 +16,7 @@ export const Hero: React.FC = () => {
         </p>
         
         <div style={ctaGroupStyle}>
-          <Link to="/login" style={primaryCtaStyle}>
+          <Link to="/login" className="primary-cta" style={primaryCtaStyle}>
             START YOUR FINANCIAL PLAN
             <ArrowRight size={16} style={{ marginLeft: '8px' }} />
           </Link>
@@ -112,7 +112,8 @@ const primaryCtaStyle: React.CSSProperties = {
   padding: '16px 32px',
   borderRadius: '4px',
   textDecoration: 'none',
-  transition: 'var(--transition-smooth)',
+  boxShadow: '0 0 40px rgba(201, 164, 108, 0.3)',
+  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
 };
 
 const secondaryCtaStyle: React.CSSProperties = {
@@ -132,6 +133,10 @@ if (typeof window !== 'undefined') {
     #hero a:hover {
       opacity: 0.8;
       transform: translateY(-2px);
+    }
+    #hero a.primary-cta:hover {
+      opacity: 1;
+      box-shadow: 0 10px 50px rgba(201, 164, 108, 0.5) !important;
     }
   `;
   document.head.appendChild(styleElement);

@@ -76,12 +76,11 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => 
         </button>
       </div>
       
-      {activeImport && (
-        <ImportManager 
-          initialFlow={activeImport} 
-          onClose={() => setActiveImport(null)} 
-        />
-      )}
+      <ImportManager 
+        isOpen={activeImport !== null}
+        initialFlow={activeImport} 
+        onClose={() => setActiveImport(null)} 
+      />
     </>
   );
 };

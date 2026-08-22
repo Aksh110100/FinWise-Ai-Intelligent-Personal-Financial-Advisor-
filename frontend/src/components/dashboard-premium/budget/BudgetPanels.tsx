@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useDelayedUnmount } from '../../../hooks/useDelayedUnmount';
 import { X, TrendingUp, AlertTriangle } from 'lucide-react';
 import { AVAILABLE_CATEGORIES, Budget } from '../../../data/mockBudgetData';
 import { FinWiseDropdown } from './BudgetSharedComponents';
@@ -12,6 +13,12 @@ interface CreateBudgetPanelProps {
 }
 
 export const CreateBudgetPanel: React.FC<CreateBudgetPanelProps> = ({ isOpen, onClose, onSubmit, selectedMonth }) => {
+  const { shouldRender, isClosing } = useDelayedUnmount(isOpen, 400);
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (isOpen) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
   const [category, setCategory] = useState('');
   const [limit, setLimit] = useState('');
   const [month, setMonth] = useState(selectedMonth);
@@ -28,7 +35,7 @@ export const CreateBudgetPanel: React.FC<CreateBudgetPanelProps> = ({ isOpen, on
     }
   }, [isOpen, selectedMonth]);
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   const handleSubmit = () => {
     const amount = parseFloat(limit.replace(/[^\d.]/g, ''));
@@ -55,8 +62,8 @@ export const CreateBudgetPanel: React.FC<CreateBudgetPanelProps> = ({ isOpen, on
   };
 
   return createPortal(
-    <div className="qa-overlay center opening" onClick={onClose}>
-      <div className="qa-panel floating opening" onClick={(e) => e.stopPropagation()}>
+    <div className={`qa-overlay center opening ${isClosing ? 'closing' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className={`qa-panel floating opening ${isClosing ? 'closing' : ''}`} onClick={(e) => e.stopPropagation()}>
         <button className="qa-close-btn" onClick={onClose}>
           <X size={24} />
         </button>
@@ -152,7 +159,13 @@ interface CategoryDetailPanelProps {
 }
 
 export const CategoryDetailPanel: React.FC<CategoryDetailPanelProps> = ({ category, onClose, budgets, selectedMonth, spent }) => {
-  if (!category) return null;
+  const { shouldRender, isClosing } = useDelayedUnmount(!!category, 400);
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (category) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [category, onClose]);
+  if (!shouldRender) return null;
 
   const budget = budgets.find(b => b.category === category && b.month === selectedMonth);
   if (!budget) return null;
@@ -160,8 +173,8 @@ export const CategoryDetailPanel: React.FC<CategoryDetailPanelProps> = ({ catego
   const remaining = Math.max(budget.limit - spent, 0);
 
   return createPortal(
-    <div className="qa-overlay center opening" onClick={onClose}>
-      <div className="qa-panel floating opening" onClick={(e) => e.stopPropagation()}>
+    <div className={`qa-overlay center opening ${isClosing ? 'closing' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className={`qa-panel floating opening ${isClosing ? 'closing' : ''}`} onClick={(e) => e.stopPropagation()}>
         <button className="qa-close-btn" onClick={onClose}>
           <X size={24} />
         </button>

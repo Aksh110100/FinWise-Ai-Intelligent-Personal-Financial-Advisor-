@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useDelayedUnmount } from '../../../hooks/useDelayedUnmount';
 import { X } from 'lucide-react';
 import { Transaction } from '../../../data/mockTransactions';
 
@@ -9,12 +10,19 @@ interface TransactionDetailPanelProps {
 }
 
 export const TransactionDetailPanel: React.FC<TransactionDetailPanelProps> = ({ transaction, onClose }) => {
-  if (!transaction) return null;
+  const { shouldRender, isClosing } = useDelayedUnmount(!!transaction, 350);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (transaction) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [transaction, onClose]);
+  if (!shouldRender) return null;
 
   return createPortal(
-    <div className="qa-overlay center opening" onClick={onClose}>
+    <div className={`qa-overlay center opening ${isClosing ? 'closing' : ''}`} onClick={onClose}>
       {/* Panel */}
-      <div className="qa-panel floating opening" onClick={(e) => e.stopPropagation()}>
+      <div className={`qa-panel floating opening ${isClosing ? 'closing' : ''}`} onClick={(e) => e.stopPropagation()}>
         <button className="qa-close-btn" onClick={onClose}>
           <X size={24} />
         </button>
